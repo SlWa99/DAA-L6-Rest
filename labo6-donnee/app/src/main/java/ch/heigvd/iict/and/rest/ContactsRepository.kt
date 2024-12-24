@@ -19,9 +19,19 @@ class ContactsRepository(private val contactsDao: ContactsDao) {
         contactsDao.delete(contact)
     }
 
-    // Insère un contact dans la base de données
-    suspend fun insertContact(contact: Contact) = withContext(Dispatchers.IO) {
-        contactsDao.insert(contact)
+    // Insère un nouveau contact
+    suspend fun insert(contact: Contact) = withContext(Dispatchers.IO) {
+        contactsDao.insert(contact) // Ajoute dans la base locale
+    }
+
+    // Met à jour un contact existant
+    suspend fun update(contact: Contact) = withContext(Dispatchers.IO) {
+        contactsDao.update(contact) // Modifie dans la base locale
+    }
+
+    // Supprime un contact
+    suspend fun delete(contact: Contact) = withContext(Dispatchers.IO) {
+        contactsDao.delete(contact) // Supprime dans la base locale
     }
 
     // Supprime tous les contacts de la base de données

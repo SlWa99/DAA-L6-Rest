@@ -1,5 +1,7 @@
 package ch.heigvd.iict.and.rest.viewmodels
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -13,7 +15,25 @@ import java.util.GregorianCalendar
 class ContactsViewModel(private val repository: ContactsRepository) : ViewModel() {
 
     val allContacts = repository.allContacts
+    // Contact sélectionné
+    private val _selectedContact = MutableLiveData<Contact?>()
+    val selectedContact: LiveData<Contact?> = _selectedContact
 
+    // Sélectionne un contact (existant ou nouveau)
+    fun selectContact(contact: Contact?) {
+        _selectedContact.value = contact
+    }
+
+    // Sauvegarde un contact (création ou modification)
+    fun saveContact(contact: Contact) {
+        viewModelScope.launch {
+            if (contact.id?.toInt() == 0) {
+                repository.insert(contact) // Création
+            } else {
+                repository.update(contact) // Modification
+            }
+        }
+    }
 
     // actions
     fun enroll() {
@@ -66,7 +86,7 @@ class ContactsViewModel(private val repository: ContactsRepository) : ViewModel(
 
             // Insertion des contacts dans la base de données
             contacts.forEach { contact ->
-                repository.insertContact(contact)  // Utilisation de la méthode suspend
+                repository.insert(contact)  // Utilisation de la méthode suspend
             }
         }
     }
@@ -83,7 +103,7 @@ class ContactsViewModel(private val repository: ContactsRepository) : ViewModel(
 
                 // 3. Insérer les nouveaux contacts
                 remoteContacts.forEach { contact ->
-                    repository.insertContact(contact)
+                    repository.insert(contact)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -25,10 +25,10 @@ class MainActivity : AppCompatActivity() {
 
 
         binding.mainFabNew.setOnClickListener {
-            // TODO
+            contactsViewModel.selectContact(null) // Prépare un contact vide
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, EditFragment.newInstance())
-                .addToBackStack(null)
+                .replace(R.id.fragment_container, EditFragment()) // Remplace proprement
+                .addToBackStack(null) // Permet retour arrière
                 .commit()
         }
     }
