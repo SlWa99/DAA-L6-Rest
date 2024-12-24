@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import ch.heigvd.iict.and.rest.databinding.ActivityMainBinding
+import ch.heigvd.iict.and.rest.fragments.EditFragment
 import ch.heigvd.iict.and.rest.viewmodels.ContactsViewModel
 import ch.heigvd.iict.and.rest.viewmodels.ContactsViewModelFactory
 
@@ -22,9 +23,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         binding.mainFabNew.setOnClickListener {
-            // FIXME - create a new contact
-            Toast.makeText(this, "TODO - Création d'un nouveau contact", Toast.LENGTH_SHORT).show()
+            // TODO
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, EditFragment.newInstance())
+                .addToBackStack(null)
+                .commit()
         }
     }
 
@@ -50,5 +55,4 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private val TAG = MainActivity::class.java.simpleName
     }
-
 }

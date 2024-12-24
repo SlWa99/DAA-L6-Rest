@@ -26,4 +26,9 @@
         android:layout_margin="24dp"
         android:contentDescription="@string/main_fab_new_ctndesc" />
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -33,4 +33,23 @@
     <string name="fragment_btn_create">Create</string>
     <string name="fragment_btn_save">Save</string>
 
+    <string name="edit_title">New contact</string>
+    <string name="edit_name_label">Name</string>
+    <string name="edit_firstname_label">Firstname</string>
+    <string name="edit_email_label">E-Mail</string>
+    <string name="edit_birthday_label">Birthday</string>
+    <string name="edit_address_label">Address</string>
+    <string name="edit_zip_label">Zip</string>
+    <string name="edit_city_label">City</string>
+    <string name="edit_phone_type_label">Phone type</string>
+    <string name="edit_phone_type_home">Home</string>
+    <string name="edit_phone_type_mobile">Mobile</string>
+    <string name="edit_phone_type_office">Office</string>
+    <string name="edit_phone_type_fax">Fax</string>
+    <string name="edit_phone_label">Phone number</string>
+    <string name="edit_cancel">CANCEL</string>
+    <string name="edit_delete">DELETE</string>
+    <string name="edit_save">SAVE</string>
+    <string name="edit_create">CREATE</string>
+
 </resources>

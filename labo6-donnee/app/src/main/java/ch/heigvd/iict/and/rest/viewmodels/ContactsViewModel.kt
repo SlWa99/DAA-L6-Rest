@@ -14,6 +14,7 @@ class ContactsViewModel(private val repository: ContactsRepository) : ViewModel(
 
     val allContacts = repository.allContacts
 
+
     // actions
     fun enroll() {
         viewModelScope.launch {

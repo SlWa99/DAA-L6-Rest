@@ -1,5 +1,6 @@
 package ch.heigvd.iict.and.rest
 
+import androidx.lifecycle.LiveData
 import ch.heigvd.iict.and.rest.database.ContactsDao
 import ch.heigvd.iict.and.rest.models.Contact
 import kotlinx.coroutines.Dispatchers
@@ -11,6 +12,11 @@ class ContactsRepository(private val contactsDao: ContactsDao) {
 
     companion object {
         private val TAG = "ContactsRepository"
+    }
+
+    fun getContactById(id: Long): LiveData<Contact> = contactsDao.getContactById(id)
+    suspend fun deleteContact(contact: Contact) = withContext(Dispatchers.IO) {
+        contactsDao.delete(contact)
     }
 
     // Insère un contact dans la base de données
