@@ -174,25 +174,47 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="3">
 
+        <!-- Bouton Cancel (toujours présent) -->
         <Button
             android:id="@+id/edit_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/edit_cancel"/>
-
-        <Space
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:layout_marginHorizontal="4dp"
+            android:text="@string/edit_cancel"/>
 
+        <!-- Bouton Delete (uniquement pour contact existant) -->
+        <Button
+            android:id="@+id/edit_delete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="4dp"
+            android:text="@string/edit_delete"
+            android:visibility="gone"/>
 
+        <!-- Bouton Create (uniquement pour nouveau contact) -->
         <Button
             android:id="@+id/edit_create"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/edit_create"/>
+            android:layout_weight="1"
+            android:layout_marginHorizontal="4dp"
+            android:text="@string/edit_create"
+            android:visibility="gone"/>
+
+        <!-- Bouton Save (uniquement pour contact existant) -->
+        <Button
+            android:id="@+id/edit_save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="4dp"
+            android:text="@string/edit_save"
+            android:visibility="gone"/>
 
     </LinearLayout>
 </LinearLayout>

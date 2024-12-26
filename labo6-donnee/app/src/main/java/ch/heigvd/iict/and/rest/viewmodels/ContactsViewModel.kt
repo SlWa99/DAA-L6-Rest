@@ -112,6 +112,18 @@ class ContactsViewModel(private val repository: ContactsRepository) : ViewModel(
             }
         }
     }
+    fun updateContact(contact: Contact) = viewModelScope.launch {
+        repository.update(contact)
+        refresh() // Mise à jour de la liste après édition
+    }
+
+    fun deleteContact(contact: Contact) {
+        viewModelScope.launch {
+            repository.delete(contact)
+            // Rafraîchir la liste après suppression
+            refresh()
+        }
+    }
 }
 
 class ContactsViewModelFactory(private val repository: ContactsRepository) : ViewModelProvider.Factory {
