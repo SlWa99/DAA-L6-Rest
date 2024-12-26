@@ -108,6 +108,7 @@ class ContactsViewModel(private val repository: ContactsRepository) : ViewModel(
             } catch (e: Exception) {
                 e.printStackTrace()
                 // TODO: Gérer l'erreur (par exemple avec un LiveData<Error>)
+
             }
         }
     }

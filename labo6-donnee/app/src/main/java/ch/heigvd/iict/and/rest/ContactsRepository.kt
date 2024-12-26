@@ -37,6 +37,7 @@ class ContactsRepository(private val contactsDao: ContactsDao) {
     // Supprime tous les contacts de la base de données
     suspend fun deleteAllContacts() = withContext(Dispatchers.IO) {
         contactsDao.clearAllContacts()
+        contactsDao.resetPrimaryKey()
     }
 
     // Récupère les contacts depuis le serveur (simulation pour l'instant)

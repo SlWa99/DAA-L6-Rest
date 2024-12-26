@@ -38,4 +38,6 @@ interface ContactsDao {
     @Query("DELETE FROM Contact")
     fun clearAllContacts()
 
+    @Query("DELETE FROM sqlite_sequence WHERE name='Contact'")
+    suspend fun resetPrimaryKey()
 }
