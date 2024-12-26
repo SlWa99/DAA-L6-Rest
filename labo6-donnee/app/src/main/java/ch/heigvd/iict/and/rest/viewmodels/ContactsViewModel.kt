@@ -27,7 +27,7 @@ class ContactsViewModel(private val repository: ContactsRepository) : ViewModel(
     // Sauvegarde un contact (création ou modification)
     fun saveContact(contact: Contact) {
         viewModelScope.launch {
-            if (contact.id?.toInt() == 0) {
+            if (contact.id?.toInt() == null) {
                 repository.insert(contact) // Création
             } else {
                 repository.update(contact) // Modification

@@ -84,7 +84,7 @@ class EditFragment : Fragment() {
 
         // Crée un objet Contact à partir des données du formulaire
         val contact = ch.heigvd.iict.and.rest.models.Contact(
-            id = 0, // ID pour un nouveau contact TODO on devrait mettre null
+            id = null, // ID pour un nouveau contact TODO on devrait mettre null
             name = binding.editName.text.toString(),
             firstname = binding.editFirstname.text.toString(),
             email = binding.editEmail.text.toString(),
