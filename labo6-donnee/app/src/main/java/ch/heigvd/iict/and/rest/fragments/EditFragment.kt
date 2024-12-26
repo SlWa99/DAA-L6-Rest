@@ -55,17 +55,22 @@ class EditFragment : Fragment() {
         // Bouton Create (nouveau contact)
         binding.editCreate.setOnClickListener {
             val newContact = createContactFromInputs()
-            contactsViewModel.saveContact(newContact)
-            parentFragmentManager.popBackStack()
+            if (newContact != null) {
+                contactsViewModel.saveContact(newContact)
+                parentFragmentManager.popBackStack()
+            }
         }
 
         // Bouton Save (modification)
         binding.editSave.setOnClickListener {
-            val updatedContact = createContactFromInputs().copy(
+            val newContact = createContactFromInputs()
+            if (newContact != null) {
+            val updatedContact = newContact.copy(
                 id = contactsViewModel.selectedContact.value?.id
-            )
+                        )
             contactsViewModel.saveContact(updatedContact)
             parentFragmentManager.popBackStack()
+            }
         }
 
         // Bouton Delete
@@ -117,7 +122,13 @@ class EditFragment : Fragment() {
         binding.editDelete.visibility = View.VISIBLE
     }
 
-    private fun createContactFromInputs(): Contact {
+    private fun createContactFromInputs(): Contact? {
+        val name = binding.editName.text.toString().trim()
+        if (name.isBlank()) {
+            binding.editName.error = "Le nom est obligatoire"
+            Toast.makeText(context, "Le nom est obligatoire", Toast.LENGTH_SHORT).show()
+            return null
+            }
         return Contact(
             id = null, // sera remplacé par l'ID existant en mode édition
             name = binding.editName.text.toString(),
@@ -134,7 +145,9 @@ class EditFragment : Fragment() {
                 binding.editPhoneTypeOffice.isChecked -> PhoneType.OFFICE
                 binding.editPhoneTypeFax.isChecked -> PhoneType.FAX
                 else -> null
-            }
+            },
+            isDirty = true, // Marquer comme modifié pour la synchronisation
+            lastModified = System.currentTimeMillis()
         )
     }
 

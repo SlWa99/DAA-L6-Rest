@@ -58,4 +58,14 @@ class ContactsRepository(private val contactsDao: ContactsDao) {
             )
         )
     }
+
+    suspend fun markAsDirty(contact: Contact) {
+        contact.isDirty = true
+        contact.lastModified = System.currentTimeMillis()
+        update(contact) // Appelle la méthode existante pour mettre à jour le contact
+    }
+
+    suspend fun getDirtyContacts(): List<Contact> {
+        return contactsDao.getDirtyContacts() // Appelle la requête SQL définie dans ContactDao
+    }
 }

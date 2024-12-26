@@ -40,4 +40,7 @@ interface ContactsDao {
 
     @Query("DELETE FROM sqlite_sequence WHERE name='Contact'")
     suspend fun resetPrimaryKey()
+
+    @Query("SELECT * FROM Contact WHERE isDirty = 1 ORDER BY lastModified ASC")
+    fun getDirtyContacts(): List<Contact>
 }

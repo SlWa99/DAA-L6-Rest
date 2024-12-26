@@ -36,7 +36,7 @@ class ListFragment : Fragment() {
                 val selectedContact = contactsViewModel.allContacts.value!!.find { it.id == id }
                 if(selectedContact != null) {
                     //FIXME - user clicks on selectedContact, we want to edit it
-                    Toast.makeText(requireActivity(), "TODO - Edition de ${selectedContact.firstname} ${selectedContact.name}", Toast.LENGTH_SHORT).show()
+                    // Toast.makeText(requireActivity(), "TODO - Edition de ${selectedContact.firstname} ${selectedContact.name}", Toast.LENGTH_SHORT).show()
                     // Mettre à jour le contact sélectionné dans le ViewModel
                     contactsViewModel.selectContact(selectedContact)
 
