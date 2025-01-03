@@ -85,6 +85,15 @@ class ContactsViewModel(private val repository: ContactsRepository) : ViewModel(
             }
         }
     }
+    fun synchronizeDirtyContacts() {
+        viewModelScope.launch {
+            try {
+                repository.synchronizeDirtyContacts()
+            } catch (e: Exception) {
+                Log.e("ContactsViewModel", "Erreur lors de la synchronisation", e)
+            }
+        }
+    }
 }
 
 class ContactsViewModelFactory(private val repository: ContactsRepository) : ViewModelProvider.Factory {
