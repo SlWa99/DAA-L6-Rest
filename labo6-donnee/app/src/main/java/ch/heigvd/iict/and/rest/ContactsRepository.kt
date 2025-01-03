@@ -48,8 +48,30 @@ class ContactsRepository(
     }
 
     // Supprime un contact
+    // Dans ContactsRepository
     suspend fun delete(contact: Contact) = withContext(Dispatchers.IO) {
-        contactsDao.delete(contact) // Supprime dans la base locale
+        Log.d(TAG, "Début de la suppression du contact ${contact.id}")
+        try {
+            // Suppression locale
+            contactsDao.delete(contact)
+            Log.d(TAG, "Suppression locale effectuée")
+
+            // Récupérer l'UUID stocké
+            val uuid = getUuid() ?: return@withContext
+
+            // Si le contact a un ID serveur, tenter la suppression sur le serveur
+            if (contact.id != null) {
+                try {
+                    apiService.deleteContact(uuid, contact.id!!)
+                } catch (e: Exception) {
+                    Log.e(TAG, "Erreur lors de la suppression sur le serveur", e)
+                    // Optionnel : gérer l'échec de la suppression sur le serveur
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Erreur lors de la suppression", e)
+            throw e
+        }
     }
 
     // Supprime tous les contacts de la base de données

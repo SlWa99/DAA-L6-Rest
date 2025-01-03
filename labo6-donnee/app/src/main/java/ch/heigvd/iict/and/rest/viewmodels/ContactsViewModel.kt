@@ -77,9 +77,12 @@ class ContactsViewModel(private val repository: ContactsRepository) : ViewModel(
 
     fun deleteContact(contact: Contact) {
         viewModelScope.launch {
-            repository.delete(contact)
-            // Rafraîchir la liste après suppression
-            refresh()
+            try {
+                repository.delete(contact)
+            } catch (e: Exception) {
+                Log.e("ContactsViewModel", "Erreur lors de la suppression", e)
+                // Gérer l'erreur si nécessaire
+            }
         }
     }
 }

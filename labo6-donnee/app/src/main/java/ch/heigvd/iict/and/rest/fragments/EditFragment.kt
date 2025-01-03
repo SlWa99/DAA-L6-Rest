@@ -2,6 +2,7 @@ package ch.heigvd.iict.and.rest.fragments
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,7 +77,8 @@ class EditFragment : Fragment() {
         // Bouton Delete
         binding.editDelete.setOnClickListener {
             contactsViewModel.selectedContact.value?.let { contact ->
-                contactsViewModel.deleteContact(contact)
+                contactsViewModel.deleteContact(contact) // Pas besoin de lifecycleScope ici
+                Toast.makeText(context, "Contact supprimé", Toast.LENGTH_SHORT).show()
                 parentFragmentManager.popBackStack()
             }
         }
