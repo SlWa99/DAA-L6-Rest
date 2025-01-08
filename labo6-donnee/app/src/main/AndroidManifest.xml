@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Nom du fichier : AndroidManifest.xml
+    Description    : Déclare les composants principaux de l'application, les permissions requises
+                     et les métadonnées importantes. Inclut l'activité principale et
+                     la configuration de l'application.
+    Auteurs        : ICI
+    Date           : 08 janvier 2025
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 

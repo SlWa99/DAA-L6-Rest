@@ -1,3 +1,11 @@
+/**
+ * Nom du fichier : ContactsDao.kt
+ * Description    : Interface DAO pour gérer les opérations CRUD sur la table `Contact` dans
+ *                  la base de données locale. Inclut des requêtes personnalisées pour des
+ *                  opérations spécifiques comme la récupération des contacts marqués "dirty".
+ * Auteur         : ICI
+ * Date           : 08 janvier 2025
+ */
 package ch.heigvd.iict.and.rest.database
 
 import androidx.lifecycle.LiveData

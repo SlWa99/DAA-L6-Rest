@@ -1,3 +1,10 @@
+/**
+ * Nom du fichier : ListFragment.kt
+ * Description    : Fragment affichant la liste des contacts. Permet à l'utilisateur de visualiser
+ *                  les contacts existants et d'accéder à leur édition via un clic sur un élément.
+ * Auteur         : ICI
+ * Date           : 08 janvier 2025
+ */
 package ch.heigvd.iict.and.rest.fragments
 
 import android.os.Bundle
@@ -14,6 +21,12 @@ import ch.heigvd.iict.and.rest.databinding.FragmentListBinding
 import ch.heigvd.iict.and.rest.viewmodels.ContactsViewModel
 import ch.heigvd.iict.and.rest.viewmodels.ContactsViewModelFactory
 
+/**
+ * Classe : ListFragment
+ * Description : Fragment gérant l'affichage et les interactions avec la liste des contacts.
+ *               Utilise un RecyclerView pour afficher les données et navigue vers le
+ *               fragment d'édition au besoin.
+ */
 class ListFragment : Fragment() {
 
     private lateinit var binding : FragmentListBinding
@@ -22,11 +35,27 @@ class ListFragment : Fragment() {
         ContactsViewModelFactory(((requireActivity().application as ContactsApplication).repository))
     }
 
+    /**
+     * Méthode : onCreateView
+     * Description : Crée et retourne la vue associée à ce fragment. Initialise le binding
+     *               pour interagir avec les éléments du layout.
+     * @param inflater Utilisé pour gonfler la vue du fragment.
+     * @param container Le conteneur auquel attacher la vue.
+     * @param savedInstanceState État enregistré précédent, s'il existe.
+     * @return La vue gonflée pour ce fragment.
+     */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentListBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
+    /**
+     * Méthode : onViewCreated
+     * Description : Configure la RecyclerView et observe les données des contacts depuis le ViewModel.
+     *               Gère également les clics sur les éléments pour naviguer vers le fragment d'édition.
+     * @param view La vue créée pour ce fragment.
+     * @param savedInstanceState État enregistré précédent, s'il existe.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -66,6 +95,11 @@ class ListFragment : Fragment() {
 
     }
 
+    /**
+     * Classe compagnon : ListFragment
+     * Description : Fournit des constantes et des méthodes statiques associées à ListFragment,
+     *               y compris une méthode pour instancier ce fragment.
+     */
     companion object {
         @JvmStatic
         fun newInstance() =

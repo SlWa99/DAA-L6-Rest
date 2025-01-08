@@ -1,3 +1,10 @@
+/**
+ * Nom du fichier : EditFragment.kt
+ * Description    : Fragment permettant la création, la modification, et la suppression de contacts.
+ *                  Gère les interactions de l'utilisateur avec les champs du formulaire.
+ * Auteur         : ICI
+ * Date           : 08 janvier 2025
+ */
 package ch.heigvd.iict.and.rest.fragments
 
 import android.app.DatePickerDialog
@@ -21,18 +28,47 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+/**
+ * Classe : EditFragment
+ * Description : Fragment dédié à l'édition ou la création de contacts. Il fournit un
+ *               formulaire avec des boutons pour gérer les contacts localement.
+ */
 class EditFragment : Fragment() {
 
     private lateinit var binding: FragmentEditBinding
+
+    /**
+     * Méthode : onCreateView
+     * Description : Crée et retourne la vue associée à ce fragment.
+     * @param inflater Utilisé pour gonfler la vue.
+     * @param container Le conteneur auquel attacher la vue.
+     * @param savedInstanceState État enregistré précédent, s'il existe.
+     * @return La vue gonflée pour ce fragment.
+     */
     private val contactsViewModel: ContactsViewModel by activityViewModels {
         ContactsViewModelFactory((requireActivity().application as ContactsApplication).repository)
     }
 
+    /**
+     * Méthode : onCreateView
+     * Description : Crée et retourne la vue associée à ce fragment.
+     * @param inflater Utilisé pour gonfler la vue.
+     * @param container Le conteneur auquel attacher la vue.
+     * @param savedInstanceState État enregistré précédent, s'il existe.
+     * @return La vue gonflée pour ce fragment.
+     */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentEditBinding.inflate(inflater, container, false)
         return binding.root
     }
 
+    /**
+     * Méthode : onViewCreated
+     * Description : Configure les boutons et initialise le mode du fragment (création ou édition)
+     *               en fonction du contact sélectionné.
+     * @param view La vue créée pour ce fragment.
+     * @param savedInstanceState État enregistré précédent, s'il existe.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -51,7 +87,10 @@ class EditFragment : Fragment() {
         }
     }
 
-
+    /**
+     * Méthode : setupButtons
+     * Description : Configure les actions des boutons (Create, Save, Delete, Cancel).
+     */
     private fun setupButtons() {
         // Bouton Create (nouveau contact)
         binding.editCreate.setOnClickListener {
@@ -89,7 +128,11 @@ class EditFragment : Fragment() {
         }
     }
 
-
+    /**
+     * Méthode : setupCreateMode
+     * Description : Configure le fragment en mode création. Modifie l'interface utilisateur pour
+     *               afficher les options appropriées (Create, Cancel) et masque les autres.
+     */
     private fun setupCreateMode() {
         binding.editTitle.text = getString(R.string.fragment_detail_title_new)
         // Afficher uniquement Create et Cancel
@@ -98,6 +141,12 @@ class EditFragment : Fragment() {
         binding.editDelete.visibility = View.GONE
     }
 
+    /**
+     * Méthode : setupEditMode
+     * Description : Configure le fragment en mode édition. Remplit les champs du formulaire avec
+     *               les données du contact existant et ajuste l'interface pour afficher Save et Delete.
+     * @param contact Le contact actuellement sélectionné pour l'édition.
+     */
     private fun setupEditMode(contact: Contact) {
         binding.editTitle.text = getString(R.string.fragment_detail_title_edit)
         // Remplir les champs avec les données du contact
@@ -124,6 +173,11 @@ class EditFragment : Fragment() {
         binding.editDelete.visibility = View.VISIBLE
     }
 
+    /**
+     * Méthode : createContactFromInputs
+     * Description : Génère un objet Contact à partir des valeurs saisies dans le formulaire.
+     * @return Un objet Contact ou null si les champs obligatoires ne sont pas remplis.
+     */
     private fun createContactFromInputs(): Contact? {
         val name = binding.editName.text.toString().trim()
         if (name.isBlank()) {
@@ -153,7 +207,11 @@ class EditFragment : Fragment() {
         )
     }
 
-
+    /**
+     * Méthode : newInstance
+     * Description : Permet de créer une nouvelle instance du fragment EditFragment.
+     * @return Une nouvelle instance d'EditFragment.
+     */
     companion object {
         @JvmStatic
         fun newInstance() = EditFragment()

@@ -1,3 +1,11 @@
+/**
+ * Nom du fichier : ContactsRepository.kt
+ * Description    : Implémente un repository pour gérer les opérations sur les contacts,
+ *                  incluant l'accès à la base de données locale et les interactions avec
+ *                  le service API distant pour la synchronisation des données.
+ * Auteur         : ICI
+ * Date           : 08 janvier 2025
+ */
 package ch.heigvd.iict.and.rest
 
 import android.content.Context
@@ -11,6 +19,15 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import com.google.gson.Gson
 
+/**
+ * Classe : ContactsRepository
+ * Description : Gère les contacts via une base de données locale et une API REST. Fournit des
+ *               méthodes pour la synchronisation, la gestion des SharedPreferences, et le CRUD
+ *               des contacts.
+ * @param contactsDao DAO pour accéder à la base de données locale.
+ * @param apiService Service API pour les opérations réseau.
+ * @param context Contexte pour accéder aux ressources et préférences partagées.
+ */
 class ContactsRepository(
     private val contactsDao: ContactsDao,
     private val apiService: ApiService,
@@ -19,35 +36,52 @@ class ContactsRepository(
 
     val allContacts = contactsDao.getAllContactsLiveData()
 
-    companion object {
-        private val TAG = "ContactsRepository"
-    }
-
     // ----------------------------------
     // Gestion des SharedPreferences pour stocker le UUID
     // ----------------------------------
     private val sharedPreferences = context.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
 
+    /**
+     * Méthode : saveUuid
+     * Description : Enregistre le UUID dans les SharedPreferences.
+     * @param uuid Identifiant unique reçu du serveur.
+     */
     private fun saveUuid(uuid: String) {
         sharedPreferences.edit().putString("uuid_key", uuid).apply()
     }
 
+    /**
+     * Méthode : getUuid
+     * Description : Récupère le UUID stocké dans les SharedPreferences.
+     * @return Le UUID sous forme de chaîne ou null s'il n'existe pas.
+     */
     private fun getUuid(): String? {
         return sharedPreferences.getString("uuid_key", null)
     }
 
-    // ----------------------------------
-    // Récupérer un contact par ID
-    // ----------------------------------
+    /**
+     * Méthode : getContactById
+     * Description : Récupère un contact spécifique depuis la base de données locale à partir de son ID.
+     * @param id L'identifiant unique du contact.
+     * @return Un LiveData contenant le contact correspondant.
+     */
     fun getContactById(id: Long): LiveData<Contact> = contactsDao.getContactById(id)
+
+    /**
+     * Méthode : deleteContact
+     * Description : Supprime un contact localement depuis la base de données.
+     * @param contact Le contact à supprimer.
+     */
     suspend fun deleteContact(contact: Contact) = withContext(Dispatchers.IO) {
         contactsDao.delete(contact)
     }
 
-
-    // ----------------------------------
-    // Insérer un contact avec synchronisation
-    // ----------------------------------
+    /**
+     * Méthode : insert
+     * Description : Insère un contact dans la base de données locale et tente
+     *               de le synchroniser avec le serveur.
+     * @param contact Le contact à insérer.
+     */
     suspend fun insert(contact: Contact) = withContext(Dispatchers.IO) {
         try {
             // Marquer comme dirty initialement
@@ -86,9 +120,12 @@ class ContactsRepository(
         }
     }
 
-    // ----------------------------------
-    // Mettre à jour un contact avec synchronisation
-    // ----------------------------------
+    /**
+     * Méthode : update
+     * Description : Met à jour un contact dans la base de données locale et tente
+     *               de synchroniser les modifications avec le serveur.
+     * @param contact Le contact à mettre à jour.
+     */
     suspend fun update(contact: Contact) = withContext(Dispatchers.IO) {
         try {
             contact.isDirty = true
@@ -109,8 +146,12 @@ class ContactsRepository(
         }
     }
 
-    // Supprime un contact
-    // Dans ContactsRepository
+    /**
+     * Méthode : delete
+     * Description : Supprime un contact localement et tente la suppression
+     *               sur le serveur si applicable.
+     * @param contact Le contact à supprimer.
+     */
     suspend fun delete(contact: Contact) = withContext(Dispatchers.IO) {
         Log.d(TAG, "Début de la suppression du contact ${contact.id}")
         try {
@@ -136,15 +177,20 @@ class ContactsRepository(
         }
     }
 
-    // Supprime tous les contacts de la base de données
+    /**
+     * Méthode : deleteAllContacts
+     * Description : Supprime tous les contacts locaux de la base de données.
+     */
     suspend fun deleteAllContacts() = withContext(Dispatchers.IO) {
         contactsDao.clearAllContacts()
         contactsDao.resetPrimaryKey()
     }
 
-    // ----------------------------------
-    // Synchronisation manuelle des contacts "dirty"
-    // ----------------------------------
+    /**
+     * Méthode : synchronizeDirtyContacts
+     * Description : Synchronise manuellement les contacts marqués comme
+     *               "dirty" avec le serveur distant.
+     */
     suspend fun synchronizeDirtyContacts() = withContext(Dispatchers.IO) {
         val uuid = getUuid() ?: return@withContext
         Log.d(TAG, "Synchronisation lancée avec UUID: $uuid") // Ajoutez ce log
@@ -170,23 +216,42 @@ class ContactsRepository(
         }
     }
 
-    // Récupère les contacts depuis le serveur (simulation pour l'instant)
+    /**
+     * Méthode : fetchContactsFromServer
+     * Description : Récupère tous les contacts depuis le serveur pour le UUID actuel.
+     *               (simulation pour l'instant)
+     * @return Une liste de contacts synchronisés.
+     */
     suspend fun fetchContactsFromServer(): List<Contact> = withContext(Dispatchers.IO) {
         val uuid = getUuid() ?: throw IllegalStateException("UUID manquant")
         return@withContext apiService.getContacts(uuid)
     }
 
+    /**
+     * Méthode : markAsDirty
+     * Description : Marque un contact comme "dirty" pour indiquer qu'il doit être synchronisé.
+     * @param contact Le contact à marquer.
+     */
     suspend fun markAsDirty(contact: Contact) {
         contact.isDirty = true
         contact.lastModified = System.currentTimeMillis()
         update(contact) // Appelle la méthode existante pour mettre à jour le contact
     }
 
+    /**
+     * Méthode : getDirtyContacts
+     * Description : Récupère les contacts marqués comme "dirty" depuis la base de données locale.
+     * @return Une liste de contacts non synchronisés.
+     */
     suspend fun getDirtyContacts(): List<Contact> {
         return contactsDao.getDirtyContacts() // Appelle la requête SQL définie dans ContactDao
     }
 
-    // Fonction d'enrollment
+    /**
+     * Méthode : enroll
+     * Description : Obtient un nouveau UUID du serveur, remplace les données locales,
+     *               et synchronise les contacts avec les données du serveur.
+     */
     suspend fun enroll() = withContext(Dispatchers.IO) {
         try {
             // Obtenir le UUID
@@ -212,5 +277,14 @@ class ContactsRepository(
             Log.e(TAG, "Erreur lors de l'enrollment", e)
             throw e
         }
+    }
+
+    /**
+     * Classe compagnon : ContactsRepository
+     * Description : Fournit des constantes et des méthodes utilitaires liées au repository,
+     *               comme des tags pour le logging.
+     */
+    companion object {
+        private val TAG = "ContactsRepository"
     }
 }

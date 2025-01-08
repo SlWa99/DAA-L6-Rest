@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Nom du fichier : activity_main.xml
+    Description    : Layout principal de l'application. Contient un FragmentContainerView pour
+                     afficher différents fragments, et un FloatingActionButton pour lancer
+                     la création de nouveaux contacts.
+    Auteurs        : ICI
+    Date           : 08 janvier 2025
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

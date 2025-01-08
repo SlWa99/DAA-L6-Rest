@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Nom du fichier : fragment_edit.xml
+    Description    : Layout du fragment d'édition des contacts. Contient un formulaire permettant
+                     de saisir ou modifier les informations sur un contact, et des boutons pour
+                     gérer les actions associées (création, mise à jour, suppression).
+    Auteurs        : ICI
+    Date           : 08 janvier 2025
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

@@ -1,3 +1,10 @@
+/**
+ * Nom du fichier : ContactsViewModel.kt
+ * Description    : Implémente le ViewModel pour gérer les opérations sur les contacts,
+ *                  y compris la synchronisation avec le serveur et la gestion locale.
+ * Auteur         : ICI
+ * Date           : 08 janvier 2025
+ */
 package ch.heigvd.iict.and.rest.viewmodels
 
 import android.util.Log
@@ -13,19 +20,35 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.GregorianCalendar
 
+/**
+ * Classe : ContactsViewModel
+ * Description : Classe ViewModel gérant les contacts pour une application Android. Elle
+ *               centralise les actions sur la base de données locale et les interactions
+ *               avec un service REST distant.
+ * @param repository Instance du repository pour accéder aux données des contacts.
+ */
 class ContactsViewModel(private val repository: ContactsRepository) : ViewModel() {
 
+    // Liste de tous les contacts synchronisés avec la base locale.
     val allContacts = repository.allContacts
-    // Contact sélectionné
+    // Contact actuellement sélectionné (peut être null).
     private val _selectedContact = MutableLiveData<Contact?>()
     val selectedContact: LiveData<Contact?> = _selectedContact
 
-    // Sélectionne un contact (existant ou nouveau)
+    /**
+     * Méthode : selectContact
+     * Description : Permet de sélectionner un contact (existant ou nouveau).
+     * @param contact Le contact à sélectionner ou null pour désélectionner.
+     */
     fun selectContact(contact: Contact?) {
         _selectedContact.value = contact
     }
 
-    // Sauvegarde un contact (création ou modification)
+    /**
+     * Méthode : saveContact
+     * Description : Sauvegarde un contact dans la base de données locale.
+     * @param contact Le contact à sauvegarder (nouveau ou modifié).
+     */
     fun saveContact(contact: Contact) {
         viewModelScope.launch {
             if (contact.id?.toInt() == null) {
@@ -36,7 +59,10 @@ class ContactsViewModel(private val repository: ContactsRepository) : ViewModel(
         }
     }
 
-    // actions
+    /**
+     * Méthode : enroll
+     * Description : Récupère un UUID, remplace les données locales, et synchronise les contacts.
+     */
     fun enroll() {
         viewModelScope.launch {
             try {
@@ -49,6 +75,10 @@ class ContactsViewModel(private val repository: ContactsRepository) : ViewModel(
         }
     }
 
+    /**
+     * Méthode : refresh
+     * Description : Rafraîchit les contacts en récupérant les données du serveur.
+     */
     fun refresh() {
         viewModelScope.launch {
             // TODO
@@ -68,23 +98,50 @@ class ContactsViewModel(private val repository: ContactsRepository) : ViewModel(
                 // TODO: Gérer l'erreur (par exemple avec un LiveData<Error>)
 
             }
+            // maybe
+//            viewModelScope.launch {
+//                try {
+//                    val remoteContacts = repository.fetchContactsFromServer()
+//                    repository.deleteAllContacts()
+//                    remoteContacts.forEach { contact ->
+//                        repository.insert(contact)
+//                    }
+//                } catch (e: Exception) {
+//                    e.printStackTrace()
+//                }
+//            }
         }
     }
+
+    /**
+     * Méthode : updateContact
+     * Description : Met à jour un contact localement et rafraîchit la liste.
+     * @param contact Le contact à mettre à jour.
+     */
     fun updateContact(contact: Contact) = viewModelScope.launch {
         repository.update(contact)
         refresh() // Mise à jour de la liste après édition
     }
 
+    /**
+     * Méthode : deleteContact
+     * Description : Supprime un contact localement.
+     * @param contact Le contact à supprimer.
+     */
     fun deleteContact(contact: Contact) {
         viewModelScope.launch {
             try {
                 repository.delete(contact)
-            } catch (e: Exception) {
+            } catch (e: Exception) { // Gère l'erreur si nécessaire
                 Log.e("ContactsViewModel", "Erreur lors de la suppression", e)
-                // Gérer l'erreur si nécessaire
             }
         }
     }
+
+    /**
+     * Méthode : synchronizeDirtyContacts
+     * Description : Synchronise les contacts marqués comme "dirty" avec le serveur distant.
+     */
     fun synchronizeDirtyContacts() {
         viewModelScope.launch {
             try {
@@ -96,7 +153,20 @@ class ContactsViewModel(private val repository: ContactsRepository) : ViewModel(
     }
 }
 
-class ContactsViewModelFactory(private val repository: ContactsRepository) : ViewModelProvider.Factory {
+/**
+ * Classe : ContactsViewModelFactory
+ * Description : Factory pour instancier ContactsViewModel avec un repository donné.
+ * @param repository Instance du repository utilisé pour gérer les contacts.
+ */
+class ContactsViewModelFactory(private val repository: ContactsRepository)
+    : ViewModelProvider.Factory {
+    /**
+     * Méthode : create
+     * Description : Crée une instance de ContactsViewModel à partir du repository fourni.
+     * @param modelClass La classe du ViewModel à instancier.
+     * @return Une instance de ContactsViewModel.
+     * @throws IllegalArgumentException Si la classe donnée ne correspond pas à ContactsViewModel.
+     */
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ContactsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

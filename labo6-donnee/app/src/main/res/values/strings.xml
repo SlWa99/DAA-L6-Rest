@@ -1,3 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Nom du fichier : strings.xml
+    Description    : Contient toutes les chaînes de caractères utilisées dans l'application.
+                     Inclut des libellés pour les titres, boutons, messages d'état, et descriptions
+                     pour l'accessibilité.
+    Auteurs        : ICI
+    Date           : 08 janvier 2025
+-->
 <resources>
     <string name="app_name">Labo6</string>
 
