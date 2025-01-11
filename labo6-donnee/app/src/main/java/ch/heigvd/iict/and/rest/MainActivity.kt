@@ -2,7 +2,7 @@
  * Nom du fichier : MainActivity.kt
  * Description    : Activité principale de l'application, gérant les interactions utilisateur
  *                  pour la création, la modification et la synchronisation des contacts.
- * Auteur         : ICI
+ * Auteur         : Bugna, Slimani & Steiner
  * Date           : 08 janvier 2025
  */
 package ch.heigvd.iict.and.rest
@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.viewModels
 import ch.heigvd.iict.and.rest.databinding.ActivityMainBinding
 import ch.heigvd.iict.and.rest.fragments.EditFragment
@@ -82,14 +81,5 @@ class MainActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    /**
-     * Classe compagnon : MainActivity
-     * Description : Contient des constantes utiles pour la classe MainActivity, y compris un tag
-     *               pour le logging.
-     */
-    companion object {
-        private val TAG = MainActivity::class.java.simpleName
     }
 }

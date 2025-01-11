@@ -2,9 +2,10 @@
  * Nom du fichier : ApiService.kt
  * Description    : Interface Retrofit définissant les endpoints de l'API REST pour l'application.
  *                  Gère les opérations CRUD pour les contacts et l'enregistrement utilisateur.
- * Auteur         : ICI
+ * Auteur         : Bugna, Slimani & Steiner
  * Date           : 08 janvier 2025
  */
+
 package ch.heigvd.iict.and.rest.network
 
 import ch.heigvd.iict.and.rest.models.Contact
@@ -13,7 +14,6 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
-import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path

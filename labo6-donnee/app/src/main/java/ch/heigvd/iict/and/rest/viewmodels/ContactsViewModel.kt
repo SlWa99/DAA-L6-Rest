@@ -2,7 +2,7 @@
  * Nom du fichier : ContactsViewModel.kt
  * Description    : Implémente le ViewModel pour gérer les opérations sur les contacts,
  *                  y compris la synchronisation avec le serveur et la gestion locale.
- * Auteur         : ICI
+ * Auteur         : Bugna, Slimani & Steiner
  * Date           : 08 janvier 2025
  */
 package ch.heigvd.iict.and.rest.viewmodels
@@ -15,10 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import ch.heigvd.iict.and.rest.ContactsRepository
 import ch.heigvd.iict.and.rest.models.Contact
-import ch.heigvd.iict.and.rest.models.PhoneType
 import kotlinx.coroutines.launch
-import java.util.Calendar
-import java.util.GregorianCalendar
 
 /**
  * Classe : ContactsViewModel

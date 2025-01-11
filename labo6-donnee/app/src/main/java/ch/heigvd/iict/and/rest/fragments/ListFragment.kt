@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import ch.heigvd.iict.and.rest.ContactsApplication
@@ -92,20 +91,5 @@ class ListFragment : Fragment() {
                 binding.listRecycler.visibility = View.VISIBLE
             }
         }
-
     }
-
-    /**
-     * Classe compagnon : ListFragment
-     * Description : Fournit des constantes et des méthodes statiques associées à ListFragment,
-     *               y compris une méthode pour instancier ce fragment.
-     */
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            ListFragment()
-
-        private val TAG = ListFragment::class.java.simpleName
-    }
-
 }

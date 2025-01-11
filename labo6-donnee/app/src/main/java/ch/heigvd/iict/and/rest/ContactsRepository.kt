@@ -3,7 +3,7 @@
  * Description    : Implémente un repository pour gérer les opérations sur les contacts,
  *                  incluant l'accès à la base de données locale et les interactions avec
  *                  le service API distant pour la synchronisation des données.
- * Auteur         : ICI
+ * Auteur         : Bugna, Slimani & Steiner
  * Date           : 08 janvier 2025
  */
 package ch.heigvd.iict.and.rest
@@ -16,8 +16,6 @@ import ch.heigvd.iict.and.rest.models.Contact
 import ch.heigvd.iict.and.rest.network.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.HttpException
-import com.google.gson.Gson
 
 /**
  * Classe : ContactsRepository
@@ -60,23 +58,6 @@ class ContactsRepository(
     }
 
     /**
-     * Méthode : getContactById
-     * Description : Récupère un contact spécifique depuis la base de données locale à partir de son ID.
-     * @param id L'identifiant unique du contact.
-     * @return Un LiveData contenant le contact correspondant.
-     */
-    fun getContactById(id: Long): LiveData<Contact> = contactsDao.getContactById(id)
-
-    /**
-     * Méthode : deleteContact
-     * Description : Supprime un contact localement depuis la base de données.
-     * @param contact Le contact à supprimer.
-     */
-    suspend fun deleteContact(contact: Contact) = withContext(Dispatchers.IO) {
-        contactsDao.delete(contact)
-    }
-
-    /**
      * Méthode : insert
      * Description : Insère un contact dans la base de données locale et tente
      *               de le synchroniser avec le serveur.
@@ -89,7 +70,7 @@ class ContactsRepository(
             contact.lastModified = System.currentTimeMillis()
 
             // Sauvegarder localement
-            val localId = contactsDao.insert(contact)
+            contactsDao.insert(contact)
 
             // Tenter la synchronisation avec le serveur
             try {
@@ -181,7 +162,7 @@ class ContactsRepository(
      * Méthode : deleteAllContacts
      * Description : Supprime tous les contacts locaux de la base de données.
      */
-    suspend fun deleteAllContacts() = withContext(Dispatchers.IO) {
+    private suspend fun deleteAllContacts() = withContext(Dispatchers.IO) {
         contactsDao.clearAllContacts()
         contactsDao.resetPrimaryKey()
     }
@@ -235,33 +216,11 @@ class ContactsRepository(
     }
 
     /**
-     * Méthode : fetchContactsFromServer
-     * Description : Récupère tous les contacts depuis le serveur pour le UUID actuel.
-     *               (simulation pour l'instant)
-     * @return Une liste de contacts synchronisés.
-     */
-    suspend fun fetchContactsFromServer(): List<Contact> = withContext(Dispatchers.IO) {
-        val uuid = getUuid() ?: throw IllegalStateException("UUID manquant")
-        return@withContext apiService.getContacts(uuid)
-    }
-
-    /**
-     * Méthode : markAsDirty
-     * Description : Marque un contact comme "dirty" pour indiquer qu'il doit être synchronisé.
-     * @param contact Le contact à marquer.
-     */
-    suspend fun markAsDirty(contact: Contact) {
-        contact.isDirty = true
-        contact.lastModified = System.currentTimeMillis()
-        update(contact) // Appelle la méthode existante pour mettre à jour le contact
-    }
-
-    /**
      * Méthode : getDirtyContacts
      * Description : Récupère les contacts marqués comme "dirty" depuis la base de données locale.
      * @return Une liste de contacts non synchronisés.
      */
-    suspend fun getDirtyContacts(): List<Contact> {
+    private fun getDirtyContacts(): List<Contact> {
         return contactsDao.getDirtyContacts() // Appelle la requête SQL définie dans ContactDao
     }
 
@@ -303,6 +262,6 @@ class ContactsRepository(
      *               comme des tags pour le logging.
      */
     companion object {
-        private val TAG = "ContactsRepository"
+        private const val TAG = "ContactsRepository"
     }
 }

@@ -3,7 +3,7 @@
  * Description    : Classe `Application` personnalisée pour initialiser les instances
  *                  de la base de données et du repository. Gère le cycle de vie global
  *                  des composants de l'application.
- * Auteur         : ICI
+ * Auteur         : Bugna, Slimani & Steiner
  * Date           : 08 janvier 2025
  */
 package ch.heigvd.iict.and.rest
@@ -23,7 +23,7 @@ class ContactsApplication : Application() {
      * Propriété : database
      * Description : Instance unique de la base de données locale, initialisée à la demande.
      */
-    val database by lazy { ContactsDatabase.getDatabase(this) }
+    private val database by lazy { ContactsDatabase.getDatabase(this) }
 
     /**
      * Propriété : repository

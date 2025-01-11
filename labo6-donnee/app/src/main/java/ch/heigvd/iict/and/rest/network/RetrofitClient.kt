@@ -2,15 +2,13 @@
  * Nom du fichier : RetrofitClient.kt
  * Description    : Initialise le client Retrofit utilisé pour effectuer les appels réseau vers l'API.
  *                  Configure les adaptateurs JSON et les convertisseurs nécessaires.
- * Auteur         : ICI
+ * Auteur         : Bugna, Slimani & Steiner
  * Date           : 08 janvier 2025
  */
 package ch.heigvd.iict.and.rest.network
 
 import ch.heigvd.iict.and.rest.database.converters.CalendarJsonAdapter
 import com.google.gson.GsonBuilder
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory

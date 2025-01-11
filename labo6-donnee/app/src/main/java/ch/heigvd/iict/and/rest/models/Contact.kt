@@ -3,7 +3,7 @@
  * Description    : Définition de l'entité `Contact`, utilisée pour représenter les contacts dans
  *                  la base de données locale. Contient des informations personnelles et des
  *                  métadonnées pour la synchronisation avec le serveur.
- * Auteur         : ICI
+ * Auteur         : Bugna, Slimani & Steiner
  * Date           : 08 janvier 2025
  */
 package ch.heigvd.iict.and.rest.models

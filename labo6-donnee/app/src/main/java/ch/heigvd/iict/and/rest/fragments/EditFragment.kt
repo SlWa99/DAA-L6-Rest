@@ -2,14 +2,13 @@
  * Nom du fichier : EditFragment.kt
  * Description    : Fragment permettant la création, la modification, et la suppression de contacts.
  *                  Gère les interactions de l'utilisateur avec les champs du formulaire.
- * Auteur         : ICI
+ * Auteur         : Bugna, Slimani & Steiner
  * Date           : 08 janvier 2025
  */
+
 package ch.heigvd.iict.and.rest.fragments
 
-import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,15 +17,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import ch.heigvd.iict.and.rest.ContactsApplication
 import ch.heigvd.iict.and.rest.R
-import ch.heigvd.iict.and.rest.database.converters.CalendarConverter
 import ch.heigvd.iict.and.rest.databinding.FragmentEditBinding
 import ch.heigvd.iict.and.rest.models.Contact
 import ch.heigvd.iict.and.rest.models.PhoneType
 import ch.heigvd.iict.and.rest.viewmodels.ContactsViewModel
 import ch.heigvd.iict.and.rest.viewmodels.ContactsViewModelFactory
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 /**
  * Classe : EditFragment
@@ -216,5 +211,4 @@ class EditFragment : Fragment() {
         @JvmStatic
         fun newInstance() = EditFragment()
     }
-
 }
