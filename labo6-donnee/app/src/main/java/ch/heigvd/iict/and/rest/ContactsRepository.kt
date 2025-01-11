@@ -10,7 +10,6 @@ package ch.heigvd.iict.and.rest
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LiveData
 import ch.heigvd.iict.and.rest.database.ContactsDao
 import ch.heigvd.iict.and.rest.models.Contact
 import ch.heigvd.iict.and.rest.network.ApiService
