@@ -193,26 +193,44 @@ class ContactsRepository(
      */
     suspend fun synchronizeDirtyContacts() = withContext(Dispatchers.IO) {
         val uuid = getUuid() ?: return@withContext
-        Log.d(TAG, "Synchronisation lancée avec UUID: $uuid") // Ajoutez ce log
+        Log.d(TAG, "Début de la synchronisation")
 
-        val dirtyContacts = getDirtyContacts()
-        Log.d(TAG, "Nombre de contacts dirty : ${dirtyContacts.size}") // Affiche le nombre de contacts à synchroniser
+        try {
+            // Récupérer uniquement les contacts dirty
+            val dirtyContacts = getDirtyContacts()
+            Log.d(TAG, "Contacts dirty à synchroniser : ${dirtyContacts.size}")
 
-        dirtyContacts.forEach { contact ->
-            try {
-                if (contact.id == null) {
-                    Log.d(TAG, "Création d'un nouveau contact sur le serveur : ${contact.name}")
-                    apiService.createContact(uuid, contact)
-                } else {
-                    Log.d(TAG, "Mise à jour d'un contact existant : ${contact.id}")
-                    apiService.updateContact(uuid, contact.id!!, contact)
+            dirtyContacts.forEach { dirtyContact ->
+                try {
+                    // Contact existant - faire un PUT
+                    if (dirtyContact.id != null && dirtyContact.uuid != null) {
+                        Log.d(TAG, "Mise à jour du contact existant ${dirtyContact.id}")
+                        val contactToUpdate = dirtyContact.copy(isDirty = false)
+                        apiService.updateContact(uuid, dirtyContact.id!!, contactToUpdate)
+                    }
+                    // Nouveau contact - faire un POST
+                    else {
+                        Log.d(TAG, "Création d'un nouveau contact")
+                        val contactToCreate = dirtyContact.copy(
+                            id = null,
+                            uuid = null,
+                            isDirty = false
+                        )
+                        val response = apiService.createContact(uuid, contactToCreate)
+                        dirtyContact.uuid = response.uuid // Mettre à jour l'UUID local
+                    }
+
+                    // Marquer comme non-dirty dans la DB locale
+                    dirtyContact.isDirty = false
+                    contactsDao.update(dirtyContact)
+                    Log.d(TAG, "Contact synchronisé avec succès")
+                } catch (e: Exception) {
+                    Log.e(TAG, "Erreur lors de la synchronisation du contact", e)
                 }
-                contact.isDirty = false
-                contactsDao.update(contact)
-                Log.d(TAG, "Contact synchronisé avec succès : ${contact.id}")
-            } catch (e: Exception) {
-                Log.e(TAG, "Échec de synchronisation pour le contact ${contact.id}", e)
             }
+        } catch (e: Exception) {
+            Log.e(TAG, "Erreur générale de synchronisation", e)
+            throw e
         }
     }
 

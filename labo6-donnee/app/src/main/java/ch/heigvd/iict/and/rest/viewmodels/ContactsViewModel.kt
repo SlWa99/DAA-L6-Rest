@@ -79,38 +79,14 @@ class ContactsViewModel(private val repository: ContactsRepository) : ViewModel(
      * Méthode : refresh
      * Description : Rafraîchit les contacts en récupérant les données du serveur.
      */
-    fun refresh() {
-        viewModelScope.launch {
-            // TODO
-            try {
-                // 1. Récupérer les contacts du backend
-                val remoteContacts = repository.fetchContactsFromServer()
-
-                // 2. Supprimer tous les contacts locaux
-                repository.deleteAllContacts()
-
-                // 3. Insérer les nouveaux contacts
-                remoteContacts.forEach { contact ->
-                    repository.insert(contact)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                // TODO: Gérer l'erreur (par exemple avec un LiveData<Error>)
-
-            }
-            // maybe
-//            viewModelScope.launch {
-//                try {
-//                    val remoteContacts = repository.fetchContactsFromServer()
-//                    repository.deleteAllContacts()
-//                    remoteContacts.forEach { contact ->
-//                        repository.insert(contact)
-//                    }
-//                } catch (e: Exception) {
-//                    e.printStackTrace()
-//                }
-//            }
+    fun refresh() {        viewModelScope.launch {
+        try {
+            repository.synchronizeDirtyContacts()
+            // Ne pas appeler refresh() ici !
+        } catch (e: Exception) {
+            Log.e("ContactsViewModel", "Erreur lors de la synchronisation", e)
         }
+    }
     }
 
     /**
@@ -146,6 +122,7 @@ class ContactsViewModel(private val repository: ContactsRepository) : ViewModel(
         viewModelScope.launch {
             try {
                 repository.synchronizeDirtyContacts()
+                // Ne pas appeler refresh() ici !
             } catch (e: Exception) {
                 Log.e("ContactsViewModel", "Erreur lors de la synchronisation", e)
             }
