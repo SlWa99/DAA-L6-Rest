@@ -16,12 +16,12 @@ import ch.heigvd.iict.and.rest.models.PhoneType
 class ContactsAdapter(contacts : List<Contact>, private val clickListener: OnItemClickListener) : RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
 
     var contacts : List<Contact> = contacts
-    set(value) {
-        val diffCallBack = ContactsDiffCallBack(contacts, value)
-        val diffItem = DiffUtil.calculateDiff(diffCallBack)
-        field = value
-        diffItem.dispatchUpdatesTo(this)
-    }
+        set(value) {
+            val diffCallBack = ContactsDiffCallBack(contacts, value)
+            val diffItem = DiffUtil.calculateDiff(diffCallBack)
+            field = value
+            diffItem.dispatchUpdatesTo(this)
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.row_item_contact, parent, false)
@@ -31,6 +31,14 @@ class ContactsAdapter(contacts : List<Contact>, private val clickListener: OnIte
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val contactToDisplay = contacts[position]
         holder.bind(contactToDisplay, position)
+
+        // Change la couleur du logo en fonction de l'état "dirty"
+        val logoColorRes = if (contactToDisplay.isDirty) {
+            R.color.orange // Orange pour les contacts "dirty"
+        } else {
+            R.color.green // Vert pour les contacts synchronisés
+        }
+        holder.image.setColorFilter(ContextCompat.getColor(holder.image.context, logoColorRes))
     }
 
     override fun getItemCount() = contacts.size
@@ -39,7 +47,7 @@ class ContactsAdapter(contacts : List<Contact>, private val clickListener: OnIte
 
     inner class ViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
-        private val image = view.findViewById<ImageView>(R.id.contact_image)
+        val image = view.findViewById<ImageView>(R.id.contact_image)
         private val name = view.findViewById<TextView>(R.id.contact_name)
         private val phonenumber = view.findViewById<TextView>(R.id.contact_phonenumber)
         private val type = view.findViewById<ImageView>(R.id.contact_phonenumber_type)
