@@ -32,14 +32,6 @@ class EditFragment : Fragment() {
 
     private lateinit var binding: FragmentEditBinding
 
-    /**
-     * Méthode : onCreateView
-     * Description : Crée et retourne la vue associée à ce fragment.
-     * @param inflater Utilisé pour gonfler la vue.
-     * @param container Le conteneur auquel attacher la vue.
-     * @param savedInstanceState État enregistré précédent, s'il existe.
-     * @return La vue gonflée pour ce fragment.
-     */
     private val contactsViewModel: ContactsViewModel by activityViewModels {
         ContactsViewModelFactory((requireActivity().application as ContactsApplication).repository)
     }

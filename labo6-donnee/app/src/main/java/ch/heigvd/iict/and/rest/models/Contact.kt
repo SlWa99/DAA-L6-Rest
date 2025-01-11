@@ -44,6 +44,6 @@ data class Contact(@PrimaryKey(autoGenerate = true)
                    var city: String?,
                    var type: PhoneType?,
                    var phoneNumber: String?,
-                   var isDirty: Boolean = false, // Synchronisation nécessaire ?
+                   var isDirty: Boolean = false,
                    var lastModified: Long = System.currentTimeMillis() // Date dernière modification
 )
