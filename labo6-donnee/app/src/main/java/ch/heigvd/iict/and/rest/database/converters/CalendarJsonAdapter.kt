@@ -2,7 +2,7 @@
  * Nom du fichier : CalendarJsonAdapter.kt
  * Description    : Fournit un adaptateur pour sérialiser et désérialiser des objets `Calendar`
  *                  en JSON, en utilisant le format de date `yyyy-MM-dd`. Compatible avec Gson.
- * Auteur         : ICI
+ * Auteur         : Bugna, Slimani & Steiner
  * Date           : 08 janvier 2025
  */
 package ch.heigvd.iict.and.rest.database.converters

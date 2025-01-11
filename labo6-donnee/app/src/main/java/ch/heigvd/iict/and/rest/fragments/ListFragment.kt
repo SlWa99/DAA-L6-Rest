@@ -2,7 +2,7 @@
  * Nom du fichier : ListFragment.kt
  * Description    : Fragment affichant la liste des contacts. Permet à l'utilisateur de visualiser
  *                  les contacts existants et d'accéder à leur édition via un clic sur un élément.
- * Auteur         : ICI
+ * Auteur         : Bugna, Slimani & Steiner
  * Date           : 08 janvier 2025
  */
 package ch.heigvd.iict.and.rest.fragments

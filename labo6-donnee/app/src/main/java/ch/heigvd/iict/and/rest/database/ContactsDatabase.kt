@@ -3,7 +3,7 @@
  * Description    : Implémente la base de données locale pour l'application, utilisant Room pour
  *                  gérer les entités et les DAO. Fournit des méthodes pour obtenir l'instance
  *                  unique de la base de données et accéder aux DAO.
- * Auteur         : ICI
+ * Auteur         : Bugna, Slimani & Steiner
  * Date           : 08 janvier 2025
  */
 package ch.heigvd.iict.and.rest.database
