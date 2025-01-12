@@ -4,7 +4,7 @@
     Description    : Layout du fragment d'édition des contacts. Contient un formulaire permettant
                      de saisir ou modifier les informations sur un contact, et des boutons pour
                      gérer les actions associées (création, mise à jour, suppression).
-    Auteurs        : ICI
+    Auteurs        : Bugna, Slimani & Steiner
     Date           : 08 janvier 2025
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

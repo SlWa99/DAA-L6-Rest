@@ -4,7 +4,7 @@
     Description    : Contient toutes les chaînes de caractères utilisées dans l'application.
                      Inclut des libellés pour les titres, boutons, messages d'état, et descriptions
                      pour l'accessibilité.
-    Auteurs        : ICI
+    Auteurs        : Bugna, Slimani & Steiner
     Date           : 08 janvier 2025
 -->
 <resources>

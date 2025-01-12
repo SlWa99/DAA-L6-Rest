@@ -4,7 +4,7 @@
     Description    : Layout principal de l'application. Contient un FragmentContainerView pour
                      afficher différents fragments, et un FloatingActionButton pour lancer
                      la création de nouveaux contacts.
-    Auteurs        : ICI
+    Auteurs        : Bugna, Slimani & Steiner
     Date           : 08 janvier 2025
 -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
